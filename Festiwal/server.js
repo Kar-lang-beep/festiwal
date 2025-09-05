@@ -1,0 +1,1 @@
+console.log('Youth Point Assistant backend działa');
