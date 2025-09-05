@@ -1,30 +1,301 @@
-<!doctype html><html><body><h1>Youth Point Assistant działa</h1></body></html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Youth Point Assistant</title>
-  <link rel="stylesheet" href="/style.css" />
+  <!-- Google Font for nice typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #0d6efd;
+      --bg-color: #ffffff;
+      --text-color: #333;
+      --light-bg: #f7f7f7;
+      --assistant-bubble: #e9ecef; /* light grey for assistant messages */
+      --user-bubble: var(--primary-color);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--bg-color);
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2em;
+      margin: 0;
+    }
+    nav {
+      margin-top: 0.5rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      margin: 0 1rem;
+      font-size: 1rem;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    /* Layout containers */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    section {
+      padding: 2rem 0;
+    }
+    section h2 {
+      font-size: 1.5em;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    /* Welcome Section styling */
+    #welcome {
+      padding: 4rem 1rem;
+    }
+    #welcome h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+    #welcome p {
+      font-size: 1.2em;
+      text-align: center;
+      max-width: 600px;
+      margin: 0.5rem auto 0;
+    }
+    /* Instructions Section */
+    #instructions ul {
+      list-style: disc inside;
+      max-width: 600px;
+      margin: 1rem auto;
+      text-align: left;
+    }
+    #instructions li {
+      margin: 0.5rem 0;
+    }
+    /* Chat Section styling */
+    #chat {
+      background: var(--light-bg);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    #chat-messages {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 1rem;
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+    .message {
+      margin: 0.5rem 0;
+      padding: 0.5rem 0.75rem;
+      border-radius: 5px;
+      line-height: 1.4;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    .message.assistant {
+      background: var(--assistant-bubble);
+      color: #000;
+      text-align: left;
+    }
+    .message.user {
+      background: var(--user-bubble);
+      color: #fff;
+      text-align: right;
+      margin-left: auto;
+    }
+    .message.assistant.loading {
+      font-style: italic;
+      opacity: 0.7;
+    }
+    /* Chat input area */
+    #chat-form {
+      display: flex;
+      gap: 0.5rem;
+    }
+    #chat-input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #chat-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+    #send-btn {
+      background: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 0 1rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #send-btn svg {
+      margin-left: 0.3rem;
+      fill: currentColor;
+    }
+    #send-btn:hover {
+      background: #0056d2;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8em;
+      }
+      nav a {
+        display: block;
+        margin: 0.5rem 0;
+      }
+      #chat-messages {
+        height: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <h1>Youth Point Assistant</h1>
-      <p>Wsparcie dobrostanu • 24/7 • PL</p>
-    </header>
+  <header>
+    <h1>Youth Point Assistant</h1>
+    <nav>
+      <a href="#welcome">Start</a>
+      <a href="#instructions">Instrukcja</a>
+      <a href="#chat-section">Czat</a>
+      <a href="#about">O projekcie</a>
+    </nav>
+  </header>
 
-    <main id="chat"></main>
+  <main class="container">
+    <!-- Welcome Section -->
+    <section id="welcome">
+      <h1>Witamy!</h1>
+      <p>Witamy w projekcie Youth Point Assistant – inteligentnym asystencie czatu wspieranym przez AI, zaprojektowanym, aby pomagać młodzieży w uzyskaniu odpowiedzi na nurtujące pytania.</p>
+    </section>
 
-    <form id="form">
-      <input id="input" type="text" placeholder="Napisz wiadomość..." autocomplete="off" />
-      <button type="submit">Wyślij</button>
-    </form>
+    <!-- Instructions Section -->
+    <section id="instructions">
+      <h2>Jak korzystać</h2>
+      <ul>
+        <li>Wpisz swoje pytanie lub polecenie w polu czatu poniżej.</li>
+        <li>Kliknij przycisk <strong>Wyślij</strong>, aby przesłać wiadomość do asystenta.</li>
+        <li>Poczekaj chwilę na odpowiedź – asystent AI udzieli odpowiedzi na podstawie Twojego zapytania.</li>
+        <li>Możesz zadawać kolejne pytania w ramach tej samej sesji czatu, bez konieczności logowania.</li>
+      </ul>
+    </section>
 
-    <footer>
-      <small>W sytuacji nagłej: 112 • Telefon Zaufania 116 111</small>
-    </footer>
-  </div>
+    <!-- Chat Section -->
+    <section id="chat-section">
+      <h2>Czat z asystentem</h2>
+      <div id="chat">
+        <div id="chat-messages">
+          <!-- Initial assistant message -->
+          <div class="message assistant">Asystent: W czym mogę pomóc?</div>
+        </div>
+        <form id="chat-form">
+          <input type="text" id="chat-input" placeholder="Napisz swoją wiadomość..." aria-label="Wpisz wiadomość" required />
+          <button type="submit" id="send-btn">Wyślij 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+              <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </section>
 
-  <script src="/script.js"></script>
+    <!-- About Section -->
+    <section id="about">
+      <h2>O projekcie</h2>
+      <p>Youth Point Assistant to projekt, który wykorzystuje nowoczesny model językowy <strong>Gemini 2.0 Flash Experimental</strong> udostępniony poprzez platformę <strong>OpenRouter</strong>. Aplikacja jest hostowana na platformie Render, a jej celem jest zapewnienie młodzieży szybkiego i anonimowego dostępu do informacji oraz porad.</p>
+      <p>Czat działa bez konieczności logowania – wszystkie zapytania są anonimowe. Backend aplikacji komunikuje się z API OpenRouter, aby uzyskać odpowiedzi od modelu AI (klucz API jest bezpiecznie przechowywany w środowisku serwera). Projekt jest w fazie eksperymentalnej, co oznacza, że możliwości asystenta będą rozszerzane wraz z rozwojem technologii i potrzeb użytkowników.</p>
+    </section>
+  </main>
+
+  <!-- Google Analytics (replace 'G-XXXXXXXXXX' with actual ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- Chat functionality script -->
+  <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+
+    chatForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const userText = chatInput.value.trim();
+      if (userText === '') return;
+      // Display the user's message in the chat
+      const userMessageElem = document.createElement('div');
+      userMessageElem.className = 'message user';
+      userMessageElem.textContent = userText;
+      chatMessages.appendChild(userMessageElem);
+      // Scroll to bottom of chat messages
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      // Clear the input field
+      chatInput.value = '';
+      chatInput.focus();
+      // Display a loading indicator for the assistant's response
+      const loadingElem = document.createElement('div');
+      loadingElem.className = 'message assistant loading';
+      loadingElem.textContent = 'Asystent pisze...';
+      chatMessages.appendChild(loadingElem);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      // Send the message to the backend /chat endpoint
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+          // The server uses the OpenRouter API (Gemini 2.0 Flash) with an API key from environment
+        },
+        body: JSON.stringify({ message: userText })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Replace loading indicator with actual assistant response
+        loadingElem.classList.remove('loading');
+        if (data && data.reply) {
+          loadingElem.textContent = data.reply;
+        } else if (data && data.message) {
+          // In case backend returns { message: "..." }
+          loadingElem.textContent = data.message;
+        } else {
+          loadingElem.textContent = 'Wystąpił błąd podczas uzyskiwania odpowiedzi.';
+        }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      })
+      .catch(error => {
+        loadingElem.classList.remove('loading');
+        loadingElem.textContent = 'Błąd: Nie udało się połączyć z serwerem.';
+        console.error('Chat error:', error);
+      });
+    });
+  </script>
 </body>
 </html>
