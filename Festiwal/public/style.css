@@ -1,1 +1,14 @@
-body{font-family:sans-serif;}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, Arial, sans-serif; background: #fafafa; }
+.app { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; min-height: 100vh; padding: 12px; }
+header { text-align: center; padding: 8px 0; }
+header h1 { margin: 4px 0; font-size: 1.4rem; }
+main { flex: 1; overflow-y: auto; border: 1px solid #ddd; border-radius: 10px; padding: 12px; background: #fff; }
+.msg { margin: 8px 0; padding: 10px 12px; border-radius: 10px; max-width: 80%; line-height: 1.35; }
+.msg.user { background: #e6f0ff; align-self: flex-end; margin-left: auto; }
+.msg.bot { background: #f1f0f0; border: 1px solid #e6e6e6; }
+form { display: flex; gap: 8px; padding: 10px 0; }
+#input { flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; }
+button { padding: 10px 14px; border-radius: 10px; border: 1px solid #444; background: #fff; cursor: pointer; }
+footer { text-align: center; color: #666; padding: 6px 0 16px; }
